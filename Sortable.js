@@ -38,8 +38,16 @@
 		activeGroup,
 		autoScroll = {},
 
+<<<<<<< HEAD
 		tapEvt,
 		touchEvt,
+=======
+		, tapEvt
+		, touchEvt
+		, touchIsScroll = false
+		, touchStartFired = false
+		, touchEvtTimeout
+>>>>>>> 54898a8... Added touch delay
 
 		expando = 'Sortable' + (new Date).getTime(),
 
@@ -148,7 +156,9 @@
 
 		// Bind events
 		_on(el, 'mousedown', this._onTapStart);
-		_on(el, 'touchstart', this._onTapStart);
+		_on(el, 'touchstart', this._onTouchStartIsScroll);
+		_on(el, 'touchmove', this._onTouchMoveIsScroll);
+		_on(el, 'touchend', this._onTouchEndIsScroll);
 		supportIEdnd && _on(el, 'selectstart', this._onTapStart);
 
 		_on(el, 'dragover', this._onDragOver);
@@ -175,6 +185,28 @@
 			_dispatchEvent(rootEl, 'start', dragEl, rootEl, startIndex);
 		},
 
+		_onTouchEndIsScroll: function (evt){
+			this.touchIsScroll = false;
+			this.touchStartFired = false;
+			clearTimeout(this.touchEvtTimeout);
+		},
+
+		_onTouchMoveIsScroll: function (evt){
+			this.touchIsScroll = true;
+			if (this.touchStartFired) evt.preventDefault();
+			clearTimeout(this.touchEvtTimeout);
+		},
+
+		_onTouchStartIsScroll: function (evt){
+			clearTimeout(this.touchEvtTimeout);
+			var self = this;
+			this.touchEvtTimeout = setTimeout(function(){
+				if( !self.touchIsScroll ) {
+					self.touchStartFired = true;
+					self._onTapStart(evt);
+				}
+			}, 500);
+		},
 
 		_onTapStart: function (/**Event|TouchEvent*/evt) {
 			var type = evt.type,
