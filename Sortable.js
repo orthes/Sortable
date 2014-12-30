@@ -38,16 +38,11 @@
 		activeGroup,
 		autoScroll = {},
 
-<<<<<<< HEAD
 		tapEvt,
 		touchEvt,
-=======
-		, tapEvt
-		, touchEvt
-		, touchIsScroll = false
-		, touchStartFired = false
-		, touchEvtTimeout
->>>>>>> 54898a8... Added touch delay
+		touchIsScroll = false,
+		touchStartFired = false,
+		touchEvtTimeout,
 
 		expando = 'Sortable' + (new Date).getTime(),
 
@@ -185,23 +180,23 @@
 			_dispatchEvent(rootEl, 'start', dragEl, rootEl, startIndex);
 		},
 
-		_onTouchEndIsScroll: function (evt){
+		_onTouchEndIsScroll: function (evt) {
 			this.touchIsScroll = false;
 			this.touchStartFired = false;
 			clearTimeout(this.touchEvtTimeout);
 		},
 
-		_onTouchMoveIsScroll: function (evt){
+		_onTouchMoveIsScroll: function (evt) {
 			this.touchIsScroll = true;
 			if (this.touchStartFired) evt.preventDefault();
 			clearTimeout(this.touchEvtTimeout);
 		},
 
-		_onTouchStartIsScroll: function (evt){
+		_onTouchStartIsScroll: function (evt) {
 			clearTimeout(this.touchEvtTimeout);
 			var self = this;
-			this.touchEvtTimeout = setTimeout(function(){
-				if( !self.touchIsScroll ) {
+			this.touchEvtTimeout = setTimeout(function () {
+				if (!self.touchIsScroll) {
 					self.touchStartFired = true;
 					self._onTapStart(evt);
 				}
