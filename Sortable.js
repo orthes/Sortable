@@ -104,6 +104,7 @@
 			ignore: 'a, img',
 			filter: null,
 			animation: 0,
+			touchDelay: 500,
 			setData: function (dataTransfer, dragEl) {
 				dataTransfer.setData('Text', dragEl.textContent);
 			}
@@ -200,7 +201,7 @@
 					self.touchStartFired = true;
 					self._onTapStart(evt);
 				}
-			}, 500);
+			}, this.options.touchDelay);
 		},
 
 		_onTapStart: function (/**Event|TouchEvent*/evt) {
