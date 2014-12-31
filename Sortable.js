@@ -392,6 +392,8 @@
 				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
 				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
 
+				options.setData && options.setData.call(this, dataTransfer, dragEl);
+
 				// Bind touch events
 				_on(document, 'touchmove', this._onTouchMove);
 				_on(document, 'touchend', this._onDrop);
